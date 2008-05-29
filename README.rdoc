@@ -1,0 +1,105 @@
+== Warning ==
+
+This code is experimental, and not speced.  That said, I've been using it projects for about 6 months, and it works great.
+I'm sticking it here to remind me that I want to get it speced and cleaned up a bit.
+
+(Code inspired from http://replacefixtures.rubyforge.org/)
+
+= Clag = 
+
+Clag is the awesome edible glue that Australian kids know and love.  In this context it's a fixture replacement thingy.
+For me, it speeds up my specing.  It does put more load on the db, but if you've got a snazzy dev machine it won't matter.
+
+Sometimes you want real AtciveRecords in your specs.  You're supposed to set em up with fixtures.  I hate fixtures, I keep having to
+look in different files, and they don't get created in the same way as a real ActiveRecord.
+
+== Basic Example ==
+
+With Clag, you can do stuff like this:
+
+  describe "A User with two posts" do
+    before do
+      @user = Clag.create_user!
+      @post1 = Clag.create_post! :user => @user
+      @post2 = Clag.create_post! :user => @user
+    end
+
+    ...
+  end
+
+  describe "A new post (with valid attributes)" do
+    before do
+      @post = Clag.new_post
+    end
+    
+    it { @post.should be_valid }
+  end
+  
+The code required on your part is this (say in spec/clag.rb, which is included by spec/spec_helper)
+
+  require 'clag'
+  
+  class Clag
+    def user
+      password = random
+      {
+        :email                  => unique_for(:user_email) {"#{random}@example.com"},
+        :password               => password,
+        :password_confirmation  => password,
+        :display_name           => random,
+        :forename               => random,
+        :surname                => random
+      }
+    end
+  
+    def post
+      {
+        :title    => random,
+        :body     => random,
+        :user     => create_user!
+      }
+    end
+  end
+  
+You only need to edit this file when you create a new model, or change the attributes on a model.
+
+== Usage ==
+
+Install this into plugins, or just stick clag.rb somewhere in a load path.
+
+In spec_helper, or somewhere like that, reopen, or make a new class
+descended from Clag, and add tableized method names for your model attributes
+
+Say:
+
+  class MyClag < Clag
+
+    # if method sig has no options, then any extra ones are merged with the result
+    def user
+      { a hash is returned }
+    end
+
+    # if method sig has options, then it's assumed you will merge them here
+    def area(options = {})
+      { default hash }.merge(options)
+    end
+  end
+
+Then do MyClag.create_user, or MyClag.new_user, or MyClag.user_attributes (you can use shebangs as well)
+
+Note: in the above example, the area method has an options hash.  If you define it on the method, clag assumes you will take responsibility for
+merging any passed options into the resulting object.
+
+You can make use of Clag methods like
+
+  random:     returns a random string
+
+  unique_for: guarantee a unique result when using a random value
+
+    unique_for(:user_email) { "#{random}@email.com" }
+
+== Advantages of Clag
+
+* it's one tiny ruby file
+* you can group data together by scenarios by making a new clag class
+* all of the features of fixture replacement type thingies
