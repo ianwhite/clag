@@ -1,11 +1,11 @@
-== Warning ==
+== Warning
 
 This code is experimental, and not speced.  That said, I've been using it projects for about 6 months, and it works great.
 I'm sticking it here to remind me that I want to get it speced and cleaned up a bit.
 
 (Code inspired from http://replacefixtures.rubyforge.org/)
 
-= Clag = 
+= Clag
 
 Clag is the awesome edible glue that Australian kids know and love.  In this context it's a fixture replacement thingy.
 For me, it speeds up my specing.  It does put more load on the db, but if you've got a snazzy dev machine it won't matter.
@@ -13,7 +13,7 @@ For me, it speeds up my specing.  It does put more load on the db, but if you've
 Sometimes you want real AtciveRecords in your specs.  You're supposed to set em up with fixtures.  I hate fixtures, I keep having to
 look in different files, and they don't get created in the same way as a real ActiveRecord.
 
-== Basic Example ==
+== Basic Example
 
 With Clag, you can do stuff like this:
 
@@ -63,7 +63,7 @@ The code required on your part is this (say in spec/clag.rb, which is included b
   
 You only need to edit this file when you create a new model, or change the attributes on a model.
 
-== Usage ==
+== Usage
 
 Install this into plugins, or just stick clag.rb somewhere in a load path.
 
