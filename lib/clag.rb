@@ -50,13 +50,15 @@ class Clag
         dispatch(match[2], match[1] + match[3], args[0])
       elsif match = /^(\w+)_attributes$/.match(method.to_s)
         clag_class.new.send(match[1])
+      elsif args.length == 0 && klass = (eval("::#{clag_class.name}::#{method.to_s.classify}") rescue nil)
+        klass
       else
         super(method, *args, &block)
       end
     end
     
     def dispatch(model, method, options)
-      klass = model.camelize.constantize
+      klass = (clag_class.namespace + [model.camelize]).join('::').constantize
       attrs = clag_class.new.method(model)
       if attrs.arity == 0
         klass.send method, attrs.call.merge(options || {})
@@ -79,6 +81,14 @@ class Clag
       @@unique ||= {}
       @@unique[key] ||= {}
       @@unique[key][value] ? false : @@unique[key][value] = true
+    end
+    
+    def inherited(subclass)
+      subclass.namespace << subclass.name.demodulize
+    end
+    
+    def namespace
+      instance_variable_get('@namespace') || instance_variable_set('@namespace', (superclass.namespace.dup rescue []))
     end
   end
   
