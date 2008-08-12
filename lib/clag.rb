@@ -42,14 +42,17 @@
 class Clag
   module Dispatcher
     def respond_to?(method)
-      super(method) || /^(create|new)_(\w+)(!?)$/.match(method.to_s) || /^(\w+)_attributes$/.match(method.to_s)
+      super(method) ||
+        /^(create|new)_(\w+)(!?)$/.match(method.to_s) ||
+        /^(\w+)_attributes$/.match(method.to_s) ||
+        (eval("::#{clag_class.name}::#{method.to_s.classify}") rescue nil)
     end
     
     def method_missing(method, *args, &block)
       if match = /^(create|new)_(\w+)(!?)$/.match(method.to_s)
-        dispatch(match[2], match[1] + match[3], args[0])
+        dispatch_to_ar(match[2], match[1] + match[3], args[0])
       elsif match = /^(\w+)_attributes$/.match(method.to_s)
-        clag_class.new.send(match[1])
+        dispatch_to_self(match[1], args[0])
       elsif args.length == 0 && klass = (eval("::#{clag_class.name}::#{method.to_s.classify}") rescue nil)
         klass
       else
@@ -57,13 +60,22 @@ class Clag
       end
     end
     
-    def dispatch(model, method, options)
+    def dispatch_to_ar(model, method, options)
       klass = namespaced_class(model)
-      attrs = clag_class.new.method(model)
-      if attrs.arity == 0
-        klass.send method, attrs.call.merge(options || {})
+      attrs_method = clag_class.new.method(model)
+      klass.send method, call_with_merge_depending_on_arity(attrs_method, options)
+    end
+    
+    def dispatch_to_self(method, options)
+      attrs_method = clag_class.new.method(method)
+      call_with_merge_depending_on_arity(attrs_method, options)
+    end
+    
+    def call_with_merge_depending_on_arity(method, options)
+      if method.arity == 0
+        method.call.merge(options || {})
       else
-        klass.send method, attrs.call(options || {})
+        method.call(options || {})
       end
     end
     

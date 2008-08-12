@@ -34,7 +34,7 @@ class SpecAppClag < Clag
   
   def spec_app_user
     {
-      :email => "#{random}@email.com"
+      :email => unique_for(:spec_app_user) { "#{random}@email.com" }
     }
   end
   
@@ -47,8 +47,9 @@ class SpecAppClag < Clag
     end
     
     class User < SpecAppEvent
-      def created
-        user
+      # testing arity detection
+      def created(attrs = {})
+        user.merge(attrs)
       end
     
       def updated

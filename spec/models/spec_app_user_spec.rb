@@ -3,12 +3,18 @@ require File.expand_path(File.join(File.dirname(__FILE__), '../app'))
 
 describe SpecAppUser do
   describe "attributes" do
-    before do
-      @attributes = SpecAppClag.spec_app_user_attributes
-    end
+    before { @attributes = SpecAppClag.spec_app_user_attributes }
     
     it "should have an email matching <random>@email.com" do
       @attributes[:email].should =~ /\w+\@email\.com/
+    end
+  end
+  
+  describe "attributes :email => 'this@email.com'" do
+    before { @attributes = SpecAppClag.spec_app_user_attributes :email => 'this@email.com'}
+    
+    it "should have an email == 'this@email.com'" do
+      @attributes[:email].should == 'this@email.com'
     end
   end
   
@@ -23,13 +29,19 @@ describe SpecAppUser do
   end
   
   describe "new" do
-    before do
-      @user = SpecAppClag.new_spec_app_user
-    end
+    before { @user = SpecAppClag.new_spec_app_user }
     
     it { @user.should be_new_record }
     
     it_should_behave_like "SpecAppUser with valid attributes"
+  end
+  
+  describe "new :email => 'this@email.com'" do
+    before { @user = SpecAppClag.new_spec_app_user :email => 'this@email.com'}
+    
+    it "should have an email == 'this@email.com'" do
+      @user.email.should == 'this@email.com'
+    end
   end
   
   describe "create" do
