@@ -1,0 +1,23 @@
+* We got 100% C0 coverage now
+
+* You can use clag with namespaced models now, like this:
+
+  class Clag
+    class Event < Clag
+      def funky
+        { :thing => 1 }
+      end
+    end
+  end
+  
+  Clag.event.new_funky   # => Event::Funky.new :thing => 1
+  
+  class MyClagWithExplicitNamespace
+    self.namespace = [:awesome, :big]
+    
+    def thing
+      { :name => 'greamme' }
+    end
+  end
+  
+  MyClagWithExplicitNamespace.create_thing!  # => Awesome::Big::Thing.create! :name => 'greamme'

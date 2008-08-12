@@ -13,6 +13,10 @@ For me, it speeds up my specing.  It does put more load on the db, but if you've
 Sometimes you want real AtciveRecords in your specs.  You're supposed to set em up with fixtures.  I hate fixtures, I keep having to
 look in different files, and they don't get created in the same way as a real ActiveRecord.
 
+=== Coverage and CI
+
+Clag is C0 100%, and is tested against 2.0.3, 2.0-stable, 2.1.0, 2.1-stable, and edge
+
 == Basic Example
 
 With Clag, you can do stuff like this:

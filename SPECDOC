@@ -1,0 +1,74 @@
+
+SpecAppClag
+- should have namespace of []
+- .spec_app_event should == SpecAppClag::SpecAppEvent
+
+SpecAppClag SpecAppEvent
+- should have namespace of [:spec_app_event]
+- .user should == SpecAppClag::SpecAppEvent::User
+
+SpecAppClag SpecAppEvent User
+- should have namespace of [:spec_app_event, :user]
+
+SpecAppClag new
+- #unique_for(:thing, &block) should produce unique results
+- #unique_for(:other_thing) { 'this never changes' } should raise an error second time
+
+SpecAppClag respond_to
+- should respond to #create_foo
+- should respond to #create_foo!
+- should respond to #new_foo
+- should respond to #foo_attributes
+- should respond to #spec_app_event
+
+SpecAppClag method_missing
+- #does_not_exist should be passed to super.method_missing (ie. should raise error)
+
+SpecAppEvent User::Created attributes
+- should have a created user
+
+SpecAppEvent User::Created new
+- should be new record
+- should be a SpecAppEvent::User::Created
+- should have a created user
+
+SpecAppEvent User::Created create
+- should not be new record
+- should be a SpecAppEvent::User::Created
+- should have a created user
+
+SpecAppEvent User::Updated attributes
+- should have a created user
+
+SpecAppEvent User::Updated new
+- should be new record
+- should be a SpecAppEvent::User::Updated
+- should have a created user
+
+SpecAppEvent User::Updated create
+- should not be new record
+- should be a SpecAppEvent::User::Updated
+- should have a created user
+
+SpecAppUser attributes
+- should have an email matching <random>@email.com
+
+SpecAppUser attributes :email => 'this@email.com'
+- should have an email == 'this@email.com'
+
+SpecAppUser new
+- should be new record
+- should be a SpecAppUser
+- should have email matching <random>@email.com
+
+SpecAppUser new :email => 'this@email.com'
+- should have an email == 'this@email.com'
+
+SpecAppUser create
+- should not be new record
+- should be a SpecAppUser
+- should have email matching <random>@email.com
+
+Finished in 0.38455 seconds
+
+36 examples, 0 failures
