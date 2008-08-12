@@ -61,6 +61,7 @@ The code required on your part is this (say in spec/clag.rb, which is included b
     end
   end
   
+  
 You only need to edit this file when you create a new model, or change the attributes on a model.
 
 == Usage
@@ -97,6 +98,22 @@ You can make use of Clag methods like
   unique_for: guarantee a unique result when using a random value
 
     unique_for(:user_email) { "#{random}@email.com" }
+    
+=== Namespaces
+
+    
+    # namespaces are done like this
+    class Clag
+      class Event < Clag
+        def user_tagged
+          {  :user => Clag.create_user!, :tagging => Clag.create_tagging! }
+        end
+      end
+    end
+    
+    # and used like this:
+    # Clag.event.create_user_tagged # which does Event::UserTagged.create ... 
+
 
 == Advantages of Clag
 

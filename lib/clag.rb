@@ -90,6 +90,10 @@ class Clag
     def namespace
       instance_variable_get('@namespace') || instance_variable_set('@namespace', (superclass.namespace.dup rescue []))
     end
+    
+    def namespace=(namespace_array)
+      instance_variable_set('@namespace', namespace_array.dup)
+    end
   end
   
   def random(length=10)
