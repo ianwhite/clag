@@ -12,21 +12,33 @@ describe SpecAppUser do
     end
   end
   
-  describe "new" do
-    before do
-      @user = SpecAppClag.new_spec_app_user
-    end
-    
+  describe "SpecAppUser with valid attributes", :shared => true do
     it "should be a SpecAppUser" do
       @user.class.should == SpecAppUser
-    end
-  
-    it "should be a new record" do
-      @user.should be_new_record
     end
     
     it "should have email matching <random>@email.com" do
       @user.email.should =~ /\w+\@email\.com/
     end
+  end
+  
+  describe "new" do
+    before do
+      @user = SpecAppClag.new_spec_app_user
+    end
+    
+    it { @user.should be_new_record }
+    
+    it_should_behave_like "SpecAppUser with valid attributes"
+  end
+  
+  describe "create" do
+    before do
+      @user = SpecAppClag.create_spec_app_user
+    end
+
+    it { @user.should_not be_new_record }
+    
+    it_should_behave_like "SpecAppUser with valid attributes"
   end
 end

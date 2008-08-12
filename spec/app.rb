@@ -41,7 +41,7 @@ class SpecAppClag < Clag
   class SpecAppEvent < SpecAppClag
     def user
       {
-        :user => SpecAppClag.create_user!
+        :user => SpecAppClag.create_spec_app_user!
       }
     end
     
