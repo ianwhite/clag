@@ -54,7 +54,7 @@ describe "SpecAppClag" do
   end
   
   describe "method_missing" do
-    it "#does_not_exist should be passed to super method_missing" do
+    it "#does_not_exist should be passed to super.method_missing (ie. should raise error)" do
       lambda { SpecAppClag.does_not_exist }.should raise_error(NoMethodError)
     end
   end

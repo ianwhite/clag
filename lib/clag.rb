@@ -45,7 +45,7 @@ class Clag
       super(method) ||
         /^(create|new)_(\w+)(!?)$/.match(method.to_s) ||
         /^(\w+)_attributes$/.match(method.to_s) ||
-        clag_class.const_defined?(method.to_s.classify)
+        (eval("::#{clag_class.name}::#{method.to_s.classify}") rescue nil)
     end
     
     def method_missing(method, *args, &block)
@@ -53,8 +53,8 @@ class Clag
         dispatch_to_ar(match[2], match[1] + match[3], args[0])
       elsif match = /^(\w+)_attributes$/.match(method.to_s)
         dispatch_to_self(match[1], args[0])
-      elsif args.length == 0 && clag_class.const_defined?(method.to_s.classify)
-        "::#{clag_class.name}::#{method.to_s.classify}".constantize
+      elsif args.length == 0 && klass = (eval("::#{clag_class.name}::#{method.to_s.classify}") rescue nil)
+        klass
       else
         super(method, *args, &block)
       end
