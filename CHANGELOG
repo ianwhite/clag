@@ -12,7 +12,7 @@
   
   Clag.event.new_funky   # => Event::Funky.new :thing => 1
   
-  class MyClagWithExplicitNamespace
+  class MyClagWithExplicitNamespace < Clag
     self.namespace = [:awesome, :big]
     
     def thing
