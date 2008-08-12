@@ -14,17 +14,17 @@ garlic do
   repo 'rails', :url => 'git://github.com/rails/rails'#, :local => "~/dev/vendor/rails"
   repo 'rspec', :url => 'git://github.com/dchelimsky/rspec'#, :local => "~/dev/vendor/rspec"
   repo 'rspec-rails', :url => 'git://github.com/dchelimsky/rspec-rails'#, :local => "~/dev/vendor/rspec-rails"
-  repo 'resources_controller', :path => '.'
+  repo 'clag', :path => '.'
 
   target 'edge'
   target '2.0-stable', :branch => 'origin/2-0-stable'
   target '2.1-stable', :branch => 'origin/2-1-stable'
-  target '2.0', :tag => 'v2.0'
-  target '2.1', :tag => 'v2.1'
+  target '2.0.3', :tag => 'v2.0.3'
+  target '2.1.0', :tag => 'v2.1.0'
   
   all_targets do
     prepare do
-      plugin 'resources_controller', :clone => true
+      plugin 'clag', :clone => true
       plugin 'rspec'
       plugin('rspec-rails') { sh "script/generate rspec -f" }
     end
