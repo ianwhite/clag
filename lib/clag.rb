@@ -45,7 +45,7 @@ class Clag
       super(method) ||
         /^(create|new)_(\w+)(!?)$/.match(method.to_s) ||
         /^(\w+)_attributes$/.match(method.to_s) ||
-        (eval("::#{clag_class.name}::#{method.to_s.classify}") rescue nil)
+        clag_class.const_defined?(method.to_s.classify)
     end
     
     def method_missing(method, *args, &block)
@@ -53,8 +53,8 @@ class Clag
         dispatch_to_ar(match[2], match[1] + match[3], args[0])
       elsif match = /^(\w+)_attributes$/.match(method.to_s)
         dispatch_to_self(match[1], args[0])
-      elsif args.length == 0 && klass = (eval("::#{clag_class.name}::#{method.to_s.classify}") rescue nil)
-        klass
+      elsif args.length == 0 && clag_class.const_defined?(method.to_s.classify)
+        "::#{clag_class.name}::#{method.to_s.classify}".constantize
       else
         super(method, *args, &block)
       end
@@ -82,6 +82,10 @@ class Clag
     def clag_class
       self.is_a?(Class) ? self : self.class
     end
+    
+    def namespaced_class(class_name)
+      ('/' + (clag_class.namespace.collect(&:to_s) << class_name).join('/')).classify.constantize
+    end
   end
   
   include Dispatcher
@@ -93,10 +97,6 @@ class Clag
       @@unique ||= {}
       @@unique[key] ||= {}
       @@unique[key][value] ? false : @@unique[key][value] = true
-    end
-    
-    def namespaced_class(class_name)
-      ('/' + (clag_class.namespace.collect(&:to_s) << class_name).join('/')).classify.constantize
     end
     
     def inherited(subclass)

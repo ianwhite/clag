@@ -69,6 +69,6 @@ SpecAppUser create
 - should be a SpecAppUser
 - should have email matching <random>@email.com
 
-Finished in 0.38455 seconds
+Finished in 0.358097 seconds
 
 36 examples, 0 failures
