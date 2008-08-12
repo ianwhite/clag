@@ -18,12 +18,12 @@ end
 class SpecAppEvent < ActiveRecord::Base
   class User < SpecAppEvent
     belongs_to :user, :class_name => 'SpecAppUser'
-  end
   
-  class UserCreated < User
-  end
-  
-  class UserUpdated < User
+    class Created < User
+    end
+
+    class Updated < User
+    end
   end
 end
 
@@ -38,6 +38,7 @@ class SpecAppClag < Clag
     }
   end
   
+  # these namespaces are a bit crayzeee, but its just for testing
   class SpecAppEvent < SpecAppClag
     def user
       {
@@ -45,12 +46,14 @@ class SpecAppClag < Clag
       }
     end
     
-    def user_created
-      user
-    end
+    class User < SpecAppEvent
+      def created
+        user
+      end
     
-    def user_updated
-      user
+      def updated
+        user
+      end
     end
   end
 end

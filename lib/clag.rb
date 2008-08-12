@@ -58,7 +58,7 @@ class Clag
     end
     
     def dispatch(model, method, options)
-      klass = (clag_class.namespace + [model.camelize]).join('::').constantize
+      klass = namespaced_class(model)
       attrs = clag_class.new.method(model)
       if attrs.arity == 0
         klass.send method, attrs.call.merge(options || {})
@@ -83,8 +83,12 @@ class Clag
       @@unique[key][value] ? false : @@unique[key][value] = true
     end
     
+    def namespaced_class(class_name)
+      ('/' + (clag_class.namespace.collect(&:to_s) << class_name).join('/')).classify.constantize
+    end
+    
     def inherited(subclass)
-      subclass.namespace << subclass.name.demodulize
+      subclass.namespace << subclass.name.demodulize.underscore.to_sym
     end
     
     def namespace

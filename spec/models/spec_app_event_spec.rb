@@ -1,24 +1,24 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '../spec_helper'))
 require File.expand_path(File.join(File.dirname(__FILE__), '../app'))
 
-describe SpecAppEvent do
-  describe "SpecAppEvent::User attributes", :shared => true do
+describe 'SpecAppEvent' do
+  describe "User attributes", :shared => true do
     it "should have a created user" do
       @attributes[:user].class.should == SpecAppUser
       @attributes[:user].should_not be_new_record
     end
   end
   
-  describe SpecAppEvent::UserCreated do
+  describe 'User::Created' do
     describe 'attributes' do
-      before { @attributes = SpecAppClag.spec_app_event.user_created_attributes }
+      before { @attributes = SpecAppClag.spec_app_event.user.created_attributes }
       
-      it_should_behave_like "SpecAppEvent::User attributes"
+      it_should_behave_like "User attributes"
     end
     
-    describe "SpecAppEvent::UserCreated with valid attributes", :shared => true do
-      it "should be a SpecAppEvent::UserCreated" do
-        @event.class.should == SpecAppEvent::UserCreated
+    describe "User::Created with valid attributes", :shared => true do
+      it "should be a SpecAppEvent::User::Created" do
+        @event.class.should == SpecAppEvent::User::Created
       end
 
       it "should have a created user" do
@@ -28,32 +28,32 @@ describe SpecAppEvent do
     end
 
     describe "new" do
-      before { @event = SpecAppClag.spec_app_event.new_user_created }
+      before { @event = SpecAppClag.spec_app_event.user.new_created }
 
       it { @event.should be_new_record }
 
-      it_should_behave_like "SpecAppEvent::UserCreated with valid attributes"
+      it_should_behave_like "User::Created with valid attributes"
     end
 
     describe "create" do
-      before { @event = SpecAppClag.spec_app_event.create_user_created }
+      before { @event = SpecAppClag.spec_app_event.user.create_created }
 
       it { @event.should_not be_new_record }
 
-      it_should_behave_like "SpecAppEvent::UserCreated with valid attributes"
+      it_should_behave_like "User::Created with valid attributes"
     end
   end
   
-  describe SpecAppEvent::UserUpdated do
+  describe 'User::Updated' do
     describe 'attributes' do
-      before { @attributes = SpecAppClag.spec_app_event.user_updated_attributes }
+      before { @attributes = SpecAppClag.spec_app_event.user.updated_attributes }
       
-      it_should_behave_like "SpecAppEvent::User attributes"
+      it_should_behave_like "User attributes"
     end
     
-    describe "SpecAppEvent::UserUpdated with valid attributes", :shared => true do
-      it "should be a SpecAppEvent::UserUpdated" do
-        @event.class.should == SpecAppEvent::UserUpdated
+    describe "User::Updated with valid attributes", :shared => true do
+      it "should be a SpecAppEvent::User::Updated" do
+        @event.class.should == SpecAppEvent::User::Updated
       end
 
       it "should have a created user" do
@@ -63,19 +63,19 @@ describe SpecAppEvent do
     end
 
     describe "new" do
-      before { @event = SpecAppClag.spec_app_event.new_user_updated }
+      before { @event = SpecAppClag.spec_app_event.user.new_updated }
 
       it { @event.should be_new_record }
 
-      it_should_behave_like "SpecAppEvent::UserUpdated with valid attributes"
+      it_should_behave_like "User::Updated with valid attributes"
     end
 
     describe "create" do
-      before { @event = SpecAppClag.spec_app_event.create_user_updated }
+      before { @event = SpecAppClag.spec_app_event.user.create_updated }
 
       it { @event.should_not be_new_record }
 
-      it_should_behave_like "SpecAppEvent::UserUpdated with valid attributes"
+      it_should_behave_like "User::Updated with valid attributes"
     end
   end
 end
