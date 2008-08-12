@@ -17,7 +17,7 @@ end
 
 class SpecAppEvent < ActiveRecord::Base
   class User < SpecAppEvent
-    belongs_to :user, :class_name => 'SpecAppUser'
+    belongs_to :user, :class_name => '::SpecAppUser'
   
     class Created < User
     end
@@ -42,7 +42,7 @@ class SpecAppClag < Clag
   class SpecAppEvent < SpecAppClag
     def user
       {
-        :user => SpecAppClag.create_spec_app_user!
+        :user => ::SpecAppClag.create_spec_app_user!
       }
     end
     
