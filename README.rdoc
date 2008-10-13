@@ -1,3 +1,9 @@
+= Use factory_girl - it does everything that Clag does!
+
+And it has a load of people using it, and it rocks.  I just spent an evening converting clag stuff over to factory_girl, and it's perfectly easy.
+
+I'll be using 'clag' for some cucumber + factory_girl stuff that I've been working on, for now it remains the same old CLaG
+
 = Clag
 
 Clag is the awesome edible glue that Australian kids know and love.  In this context it's a fixture replacement thingy.
