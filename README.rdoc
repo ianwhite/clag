@@ -1,3 +1,5 @@
+= EDIT: Use machinist!
+
 = Use factory_girl - it does everything that Clag does!
 
 And it has a load of people using it, and it rocks.  I just spent an evening converting clag stuff over to factory_girl, and it's perfectly easy.
